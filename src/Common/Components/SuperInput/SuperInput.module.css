@@ -1,0 +1,51 @@
+.superInput {
+    width: 220px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    padding: 10px 25px;
+    outline: none;
+    font-size: 1.1em;
+    color: #555;
+    background: linear-gradient( #5c5d60, #a3aaba, #dbdae1,#dbdae1,#a3aaba, #5c5d60);
+    border-radius: 20px;
+    border: #0637FAFF 3px solid;
+    caret-color: #fff;
+}
+.superInput:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+    background: #fff;
+    z-index: 1;
+}
+.superInput::selection{
+    background-color: #33abd5;
+    color: black;
+}
+
+.errorInput {
+    border: 3px solid #0637FAFF;
+    /*background:  #f63b3b;*/
+    color: black;
+}
+
+.error {
+    border: 4px solid #ea2020;
+    color: white;
+    width: 200px;
+    background-color: #a3aaba;
+    font-size: 26px;
+    margin: 10px 10px;
+    animation: quake 400ms;
+}
+@keyframes quake {
+    25%{transform: translateX(10px);}
+    50%{transform: translateX(-10px);}
+    75%{transform: translateX(10px);}
+}
