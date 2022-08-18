@@ -1,17 +1,12 @@
 import React from 'react';
 import './App.css';
+import {RoutesPages} from "./Components/Routes/RoutesPages";
 
-import {SuperButton} from "./Common";
-import {SuperCheckbox} from "./Common";
-import {SuperInput} from "./Common";
 
 function App() {
     return (
         <>
-            <SuperInput/>
-            <SuperButton/>
-            <SuperCheckbox/>
-            <h1>Hello world!</h1>
+            <RoutesPages/>
         </>
     );
 }
