@@ -6,11 +6,14 @@ const instance = axios.create({
 })
 
 export const ProfileApi = {
-    changeProfileName(userName: string, avatar: string){
-        return instance.put<ResponseType>(`auth/me`, {userName, avatar})
+    changeProfileName(name: string, avatar: string){
+        return instance.put<ResponseType>(`auth/me`, {name, avatar})
     },
     fetchProfile(){
         return instance.post(`auth/me`, {})
+    },
+    logout(){
+        return instance.delete(`auth/me`)
     }
 }
 

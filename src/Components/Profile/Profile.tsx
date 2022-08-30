@@ -3,17 +3,31 @@ import {NavLink, Navigate} from 'react-router-dom'
 import style from './Profile.module.sass'
 import { avatar, exitArrow, camera, pencil, logout} from './index'
 import {useAppDispatch, useAppSelector} from "../../Store";
-import {changeNameTC, fetchProfileTC} from "../../Store/Reducers/profileReducer";
+import {
+    changeNameTC,
+    fetchProfileTC,
+    setProfileName,
+    setProfileEmail,
+    logoutUserTC
+} from "../../Store/Reducers/profileReducer";
 
 
 export const Profile = () => {
+
+    const isLogIn = useAppSelector((state) => state.auth.isLogin)
+    const userName = useAppSelector((state) => state.profile.name)
+    const userEmail = useAppSelector((state)=> state.profile.email)
 
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(fetchProfileTC())
     }, [])
-    const isLogIn = useAppSelector((state) => state.auth.isLogin)
-    const userName = useAppSelector((state) => state.profile.userName)
+    useEffect(() => {
+        dispatch(setProfileName(userName));
+        dispatch(setProfileEmail(userEmail));
+    }, [userName, userEmail])
+
+
     const [mode, setMode] = useState<boolean>(false)
 
     const [value, setValue] = useState<string>(userName)
@@ -24,6 +38,9 @@ export const Profile = () => {
         dispatch(changeNameTC(value, ""))
         setMode(false)
     }
+    const logoutUser = () =>{
+        dispatch(logoutUserTC())
+    }
 
     if (!isLogIn) {
         return <Navigate to='/login'/>
@@ -31,20 +48,16 @@ export const Profile = () => {
     return (
         <div className={style.pageWrapper}>
             <div className={style.exitArrow}>
-                <NavLink to={'/'}>
                     <img src={exitArrow} alt={'arrow to exit'}/>
                     <p>Back to Packs List</p>
-                </NavLink>
             </div>
             <div className={style.profileContainer}>
                 <h3 className={style.profileInformation}>Personal Information</h3>
                 <div className={style.profileImage}>
                     <img src={avatar} alt={'avatar picture'}/>
-                    <NavLink to={'/'}>
                         <div className={style.changeProfileImage}>
                             <img src={camera} alt={'change avatar picture'}/>
                         </div>
-                    </NavLink>
                 </div>
                 <div className={style.changeProfileNameWrapper}>
                     {mode ? (
@@ -56,7 +69,7 @@ export const Profile = () => {
                         />
                     ) : (
                         <>
-                            <h3 className={style.profileName}>{value}</h3>
+                            <h3 className={style.profileName}>{userName}</h3>
 
                             <img
                                 src={pencil}
@@ -69,13 +82,11 @@ export const Profile = () => {
                     )}
                 </div>
                 <div className={style.profileEmail}>
-                    <h4>yoyoyo@gmail.com</h4>
+                    <h4>{userEmail}</h4>
                 </div>
-                <div className={style.buttonLogout}>
-                    <NavLink to={'/'}>
-                        <img src={logout} alt={'log out'}/>
+                <div className={style.buttonLogout} onClick={logoutUser}>
+                        <img src={logout} alt={'log out'} />
                         Log Out
-                    </NavLink>
                 </div>
             </div>
         </div>

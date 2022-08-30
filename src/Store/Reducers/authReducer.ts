@@ -1,7 +1,8 @@
-import {Dispatch} from "redux";
+
 import {LoginApi, LoginParamsType} from "../../api/login";
 import {RegisterParamsType, RegistrationApi} from "../../api/registration";
 import {AppThunk} from "../store";
+import {AxiosError} from "axios";
 
 const AUTH_REDUCER_SWITCH_TYPES = {
     SET_IS_LOGGED_IN: 'SET_IS_LOGGED_IN',
@@ -38,18 +39,24 @@ export const setIsActiveIn = (value: boolean) =>
 export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     LoginApi.loginUser(data)
         .then(res => {
-            if (res.data.token) {
                 dispatch(setIsLoggedIn(true))
-            }
+        })
+        .catch((e: AxiosError) => {
+            const error = e.response
+                ? (e.response.data as ({ error: string })).error
+                : e.message;
         })
 }
 
 export const registerTC = (data: RegisterParamsType):AppThunk => (dispatch) =>{
     RegistrationApi.registerUser(data)
         .then(res=>{
-            if(res.data.addedUser){
                 dispatch(setIsActiveIn(true))
-            }
+        })
+        .catch((e: AxiosError) => {
+            const error = e.response
+                ? (e.response.data as ({ error: string })).error
+                : e.message;
         })
 }
 

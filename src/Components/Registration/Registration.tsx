@@ -12,12 +12,14 @@ export const Registration = () => {
     type FormikErrorType = {
         email?: string
         password?: string
+        confirmPassword?:string
     }
 
     const formik = useFormik({
         initialValues: {
             email: '',
-            password: ''
+            password: '',
+            confirmPassword: ''
         },
         validate: (values) => {
             const errors: FormikErrorType = {}
@@ -30,6 +32,11 @@ export const Registration = () => {
                 errors.password = 'Required'
             } else if (values.password.length <= MIN_SYMBOLS_IN_PASSWORD) {
                 errors.password = 'Password should be more than 8 symbols'
+            }
+            if(!values.confirmPassword){
+                errors.confirmPassword = 'Required'
+            } else if (values.password !== values.confirmPassword){
+                errors.confirmPassword = 'Your passwords must match'
             }
             return errors
         },
@@ -53,7 +60,15 @@ export const Registration = () => {
                        {...formik.getFieldProps('password')}/>
                 {formik.touched.password && formik.errors.password ?
                     <div style={{color: 'red'}}>{formik.errors.password}</div> : null}
-                <button type='submit' disabled={!formik.isValid} >Send</button>
+                <label htmlFor="password">Confirm Password</label>
+                <input type='password'
+                       {...formik.getFieldProps('confirmPassword')}/>
+                {formik.touched.confirmPassword && formik.errors.confirmPassword ?
+                    <div style={{color: 'red'}}>{formik.errors.confirmPassword}</div> : null}
+                <div>
+                    <button type='submit' disabled={!formik.isValid} >Send</button>
+                </div>
+
             </form>
         </div>
     );
