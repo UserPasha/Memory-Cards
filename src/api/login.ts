@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios"
-import {ResponseType} from "./profile";
+import { UserResponseType} from "./profile";
 
 const instance = axios.create({
     baseURL: 'http://localhost:7542/2.0/',
@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const LoginApi = {
     loginUser(data: LoginParamsType) {
-        return instance.post<LoginParamsType, AxiosResponse<ResponseType>>(`auth/login`, data)
+        return instance.post<any, AxiosResponse<UserResponseType, LoginParamsType>, LoginParamsType>(`auth/login`, data)
     }
 }
 

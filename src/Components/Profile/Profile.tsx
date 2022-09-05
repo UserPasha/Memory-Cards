@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
-import {NavLink, Navigate} from 'react-router-dom'
+import { Navigate} from 'react-router-dom'
 import style from './Profile.module.sass'
 import { avatar, exitArrow, camera, pencil, logout} from './index'
 import {useAppDispatch, useAppSelector} from "../../Store";
@@ -10,6 +10,7 @@ import {
     setProfileEmail,
     logoutUserTC
 } from "../../Store/Reducers/profileReducer";
+import {setIsLoggedIn} from "../../Store/Reducers/authReducer";
 
 
 export const Profile = () => {
@@ -25,6 +26,7 @@ export const Profile = () => {
     useEffect(() => {
         dispatch(setProfileName(userName));
         dispatch(setProfileEmail(userEmail));
+        console.log(userName)
     }, [userName, userEmail])
 
 
@@ -40,6 +42,7 @@ export const Profile = () => {
     }
     const logoutUser = () =>{
         dispatch(logoutUserTC())
+        dispatch(setIsLoggedIn(false))
     }
 
     if (!isLogIn) {

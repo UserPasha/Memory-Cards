@@ -10,6 +10,7 @@ export const Header = () => {
         navigate("/login")
     }
     const isLogIn = useAppSelector((state) => state.auth.isLogin)
+    const userName = useAppSelector((state)=>state.profile.name)
 
     return (
         <div className={style.pageHeader}>
@@ -21,7 +22,7 @@ export const Header = () => {
                 {isLogIn
                     ?
                     (<>
-                        <div className={style.infoName}>value</div>
+                        <div className={style.infoName}>{userName}</div>
                         <div className={style.infoAvatar}>
                             <img src={avatar} alt={'avatar miniature picture'}/>
                         </div>

@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, {AxiosResponse} from "axios"
 
 const instance = axios.create({
     baseURL: 'http://localhost:7542/2.0/',
@@ -6,22 +6,22 @@ const instance = axios.create({
 })
 
 export const ProfileApi = {
-    changeProfileName(name: string, avatar: string){
-        return instance.put<ResponseType>(`auth/me`, {name, avatar})
+    changeProfileName(name: string, avatar: string) {
+        return instance.put<any, AxiosResponse<UpdateResponseType>>(`auth/me`, {name, avatar})
     },
-    fetchProfile(){
-        return instance.post(`auth/me`, {})
+    fetchProfile() {
+        return instance.post<any, AxiosResponse<UserResponseType>>(`auth/me`, {})
     },
-    logout(){
-        return instance.delete(`auth/me`)
+    logout() {
+        return instance.delete<any, AxiosResponse<LogoutType>>(`auth/me`)
     }
 }
 
 
-type updatedUserType = {
+export type UserResponseType = {
     _id: string
     email: string
-    rememberMe :boolean
+    rememberMe: boolean
     isAdmin: boolean
     name: string
     verified: boolean
@@ -31,7 +31,7 @@ type updatedUserType = {
     __v: number
     token: string
     tokenDeathTime: number
-    avatar:string
+    avatar: Nullable
     deviceTokens: deviceTokensType
 }
 type deviceTokensType = {
@@ -43,8 +43,13 @@ type ProfileInfo = {
     token: string
     tokenDeathTime: number
 }
-export type ResponseType = {
-    updatedUser: updatedUserType
+export type UpdateResponseType = {
+    updatedUser: UserResponseType
     token: string
     tokenDeathTime: number
+}
+export type Nullable<T = string> = T | null
+
+export type LogoutType = {
+    info: string
 }
